@@ -1,9 +1,7 @@
 <template>
   <div id="content">
     <h2>Book</h2>
-    <header>
-      <h1>Bertrand Delanlssays</h1>
-    </header>
+    <h1>Bertrand Delanlssays</h1>
     <main>
       <PortFolio />
     </main>
@@ -24,16 +22,4 @@ export default {
 };
 </script>
 
-<style>
-body {
-  background: #303030;
-  display: flex;
-  justify-content: center;
-}
-#content {
-  max-width: 960px;
-  margin: 0 auto;
-  display: block;
-  position: relative;
-}
-</style>
+<style></style>

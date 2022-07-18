@@ -1,0 +1,129 @@
+/* RESET */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers  */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+
+/* roboto-300 - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: local(''),
+        url('../fonts/roboto-v30-latin-300.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url('../fonts/roboto-v30-latin-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* roboto-regular - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+        url('../fonts/roboto-v30-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url('../fonts/roboto-v30-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* roboto-500 - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: local(''),
+        url('../fonts/roboto-v30-latin-500.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url('../fonts/roboto-v30-latin-500.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* roboto-700 - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: local(''),
+        url('../fonts/roboto-v30-latin-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url('../fonts/roboto-v30-latin-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+body{
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  color: #fff;
+  font-size: 1rem;
+}
+
+/*************/
+
+body{background: #303030; display: flex; justify-content: center;} 
+#content{max-width: 960px; margin: 0 auto; display: block; position: relative;}
+#content-carousel{width: 100vw; height: 100vh; position: absolute; display: flex; justify-content: center; align-items: center; z-index: -100;}
+
+a{text-decoration: none; color: inherit;}
+.hide{display: none;}
+#content.hide{filter: grayscale(100%) opacity(50%) blur(5px); position: fixed; left: 0; right: 0;}
+
+header{position: relative; width: 100%; margin: 0; display: flex; justify-content: space-between; align-items: flex-end;}
+h2{font-weight: 300; font-size: 7em; margin: 0 0 0 -3px; color: #202020; line-height: 0.8em; }
+h1{font-weight: 400; font-size: 2em; margin: 0 0 0 5px; color: #202020}
+
+/* Large devices (desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  main {
+    margin-top: -10px;
+  }
+  h2 {
+    font-weight: 300;
+    font-size: 12em;
+    position: absolute;
+    z-index: -10;
+    top: 144px;
+    left: -251px;
+    transform: rotateZ(-90deg);
+  }
+  h1 {
+    font-weight: 500;
+    font-size: 1.2em;
+    margin-left: 25px;
+    padding: 5px;
+    color: #202020;
+    text-align: left;
+    text-transform: uppercase;
+  }
+}
