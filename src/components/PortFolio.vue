@@ -1,9 +1,10 @@
 <template>
-  <ul>
+  <ul class="portfolios">
     <li
       v-for="projet in projets"
       :key="projet.id"
       class="portfolio"
+      v-bind:class="'portfolio-' + projet.id"
       v-show="projet.actif"
     >
       <section>
@@ -63,6 +64,21 @@
       </section>
     </li>
   </ul>
+  <aside>
+    <ul>
+      <li class="btMenu bt-tout actif" v-on:click="toutAfficher()">
+        Tout afficher
+      </li>
+    </ul>
+    <fieldset>
+      <legend>Prestation</legend>
+      <div class="presta"></div>
+    </fieldset>
+    <fieldset>
+      <legend>stack</legend>
+      <div class="techno"></div>
+    </fieldset>
+  </aside>
 </template>
 
 <script>
@@ -290,22 +306,102 @@ export default {
             "Comité d’Entreprise Externalisé avec commande en ligne.",
           url: "",
           prestations: ["Intégration"],
-          stacks: ["HTML", "CSS", "e-majine"],
+          stacks: ["HTML", "CSS", "E-majine"],
           actif: true,
           nbImg: 1,
           message: "Cette version du site n'existe plus",
         },
       ],
+      //listePrestations: this.test(this.projets, "prestations"),
+      //listePresta: this.liste("prestations"),
     };
   },
 
   methods: {
-    listeImages(nbImg, nomImg) {
-      this.listeImg = "";
-      for (let i = 1; i <= nbImg; i++) {
-        this.listeImg += nomImg + "-" + i + ", ";
+    liste(l, c) {
+      // objet Set
+      this.listeSet = new Set();
+      for (let i = 0; i < this.projets.length; i++) {
+        for (let j = 0; j < this.projets[i][l].length; j++) {
+          if (this.projets[i]["actif"]) {
+            this.listeSet.add(this.projets[i][l][j]);
+          }
+        }
       }
-      alert(this.listeImg);
+      // convertion en tableau
+      this.listeArr = [...this.listeSet];
+      // tri
+      this.listeArr.sort();
+
+      // dupli
+      if (l == "prestations") {
+        this.listeArrPresta = this.listeArr.slice();
+      }
+
+      this.list = "<ul>";
+      for (let i = 0; i < this.listeArr.length; i++) {
+        this.list += `<li class="btMenu bt-${c}-${i}">${this.listeArr[i]}</li>`;
+      }
+      this.list += "</ul>";
+      // return this.list;
+      this.cheminMenu = document.querySelector("." + c);
+      this.cheminMenu.innerHTML = this.list;
+
+      // event
+      for (let i = 0; i < this.listeArr.length; i++) {
+        this.bt = document.querySelector(".bt-" + c + "-" + i);
+        this.bt.addEventListener("click", () => {
+          this.menuActif(c, i);
+          if (c == "presta") {
+            this.actionMenu(this.listeArrPresta[i], l);
+          } else {
+            this.actionMenu(this.listeArr[i], l);
+          }
+        });
+      }
+    },
+
+    actionMenu(item, list) {
+      for (let i = 0; i < this.projets.length; i++) {
+        for (let j = 0; j < this.projets[i][list].length; j++) {
+          this.portfolio = document.querySelector(
+            ".portfolios .portfolio-" + this.projets[i]["id"]
+          );
+          if (item == this.projets[i][list][j] && this.projets[i]["actif"]) {
+            this.portfolio.removeAttribute("style");
+            break;
+          } else {
+            this.portfolio.style.display = "none";
+          }
+        }
+      }
+    },
+
+    toutAfficher() {
+      this.menuActif("tout", "");
+      for (let i = 0; i < this.projets.length; i++) {
+        this.portfolio = document.querySelector(
+          ".portfolios .portfolio-" + this.projets[i]["id"]
+        );
+        if (this.projets[i]["actif"]) {
+          this.portfolio.removeAttribute("style");
+        }
+      }
+    },
+
+    menuActif(c, i) {
+      // efface toutes les class actif
+      this.btMenu = document.querySelectorAll(".btMenu");
+      this.btMenu.forEach((b) => {
+        b.classList.remove("actif");
+      });
+
+      if (i !== "") {
+        this.bt = document.querySelector(".bt-" + c + "-" + i);
+      } else {
+        this.bt = document.querySelector(".bt-" + c);
+      }
+      this.bt.classList.add("actif");
     },
 
     box(nbImg, nomImg) {
@@ -351,7 +447,10 @@ export default {
       document.getElementById("content").classList.add("hide");
 
       // affiche le carousel au dessus
-      this.cheminContentCarousel.setAttribute("style", "z-index: 1000;");
+      this.cheminContentCarousel.setAttribute(
+        "style",
+        "z-index: 1000; display: flex;"
+      );
 
       // event
       this.btClose = document.querySelector(".close");
@@ -387,8 +486,13 @@ export default {
       document.getElementById("content").classList.remove("hide");
 
       // affiche le carousel en dessous
-      this.cheminContentCarousel.setAttribute("style", "");
+      this.cheminContentCarousel.removeAttribute("style");
     },
+  },
+
+  mounted() {
+    this.liste("prestations", "presta");
+    this.liste("stacks", "techno");
   },
 
   computed: {},
@@ -400,11 +504,11 @@ main > ul {
   display: flex;
   flex-wrap: wrap;
   padding: 0;
+  gap: 15px;
 }
 main > ul > li {
   width: 100%;
   list-style-type: none;
-  margin: 0.35em;
   padding: 0.5em;
   background: #202020;
 }
@@ -549,21 +653,73 @@ p.intro {
   background: #999;
 }
 
+/* menu aside */
+aside {
+  display: none;
+  position: absolute;
+  top: 24px;
+  text-align: right;
+  width: max-content;
+  left: 964px;
+}
+aside fieldset {
+  border-top: 1px solid #555;
+  margin: 10px 0;
+}
+aside fieldset legend {
+  margin: 0 auto 10px auto;
+  padding: 0 10px;
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: #666;
+}
+aside ul {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+aside li {
+  background-color: #202020;
+  color: #bbb;
+  font-size: 0.75rem;
+  font-weight: 300;
+  padding: 2px 8px;
+  margin: 3px 0;
+  border-radius: 10px;
+  font-family: monospace;
+}
+aside li:hover {
+  color: #ccc;
+  cursor: pointer;
+  background-color: #000;
+}
+aside li.actif {
+  background-color: #666;
+  color: #fff;
+}
+
 /* Medium devices (tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
   main > ul {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    margin: 10px 0;
   }
   main > ul > li {
-    width: 280px;
-    flex-grow: 1;
+    width: 290px;
+    /*flex-grow: 1;*/
   }
   #carousel {
     padding: 20px;
     width: 90%;
     box-shadow: -5px 5px 8px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  aside {
+    display: block;
   }
 }
 </style>
